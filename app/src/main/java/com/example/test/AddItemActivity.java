@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,14 +25,16 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     Button saveBtn, cancelBtn, imgBtn;
     AppDatabase db;
     ImageView imageView;
-    Intent intent;
     public static final int RequestPermissionCode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additem);
-        getSupportActionBar().setTitle("New Todo List");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("New Todo List");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         initViews();
         initListeners();
 
@@ -59,6 +63,16 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveButton:
@@ -84,6 +98,19 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityForResult(intent, 7);
 
                 break;*/
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                gotoMainActivity();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

@@ -7,8 +7,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -25,6 +27,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         items=list;
         notifyDataSetChanged();
     }
+    public void refreshList(List<TodoListItem> list) {
+        items.clear();
+        items = list;
+        Collections.reverse(items);
+        notifyDataSetChanged();
+
+    }
+    @NonNull
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row,parent,false);
@@ -52,8 +62,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 int currentPosition = holder.getAdapterPosition();
                 if (isChecked) {
                     TodoListItem finalItemBefore = items.get(currentPosition);
-                    TodoListItem finalItemAfter = new TodoListItem(finalItemBefore.getTitle(),finalItemBefore.getDesc(),true
-                    );
+                    TodoListItem finalItemAfter = new TodoListItem(finalItemBefore.getTitle(),finalItemBefore.getDesc(),true);
                     items.remove(finalItemBefore);
                     items.add(finalItemAfter);
                     notifyDataSetChanged();
